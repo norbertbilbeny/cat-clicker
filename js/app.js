@@ -144,5 +144,56 @@ var catListView = {
     }
 };
 
+var adminView = {
+	init: function() {
+        // store the DOM element for easy access later
+        this.adminElem = document.getElementById('admin-content');
+        this.adminButton = document.getElementById('admin-button');
+        this.currentName = document.getElementById('name');
+        this.adminURL = document.getElementById('url');
+        this.adminCount = document.getElementById('count');
+        this.saveButton = document.getElementById('count');
+
+
+
+
+        // render this view (update the DOM elements with the right values)
+        this.render();
+    },
+
+    render: function() {
+        var cat, elem, i;
+        // get the cats we'll be rendering from the octopus
+        var cats = octopus.getCats();
+
+        // empty the cat list
+        this.currentName.innerHTML = 'test';
+
+        // loop over the cats
+        for (i = 0; i < cats.length; i++) {
+            // this is the cat we're currently looping over
+            cat = cats[i];
+
+            // make a new cat list item and set its text
+            elem = document.createElement('li');
+            elem.textContent = cat.name;
+
+            // on click, setCurrentCat and render the catView
+            // (this uses our closure-in-a-loop trick to connect the value
+            //  of the cat variable to the click event function)
+            elem.addEventListener('click', (function(catCopy) {
+                return function() {
+                    octopus.setCurrentCat(catCopy);
+                    catView.render();
+                };
+            })(cat));
+
+            // finally, add the element to the list
+            this.catListElem.appendChild(elem);
+        }
+    }
+};
+
+document.getElementById('name').value = 'test2';
 // make it go!
 octopus.init();
