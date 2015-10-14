@@ -162,11 +162,7 @@ var adminView = {
     },
 
     render: function() {
-        var cat, elem, i;
-        // get the cats we'll be rendering from the octopus
-        var cats = octopus.getCats();
-
-        cat = octopus.getCurrentCat();
+        var cat = octopus.getCurrentCat();
 
         // set current values of current cat on inputs by default
         this.currentName.value = cat.name;
@@ -176,14 +172,27 @@ var adminView = {
        
         adminButton.addEventListener('click', (function() {
         	if (adminElem.style.display == "") 	
-        		adminElem.style.display == "none";
+        		adminElem.style.display = "none";
         	else if (adminElem.style.display == "none") 	
-        		adminElem.style.display == "";
+        		adminElem.style.display = "";
         });
 
-            // finally, add the element to the list
-            //this.catListElem.appendChild(elem);
-        }
+        saveButton.addEventListener('click', (function() {
+        	var passingCat = {
+        		//check that .value returns number, not string
+        		//and check that 'this' works as needed
+        		clickCount : adminCount.value,
+            	name : this.currentName.value
+            	imgSrc : cat.imgSrc,
+            	imgAttribution : this.adminURL.value
+        	};
+        	
+        	octopus.setCurrentCat(passingCat);
+
+        	if (adminElem.style.display == "") 	
+        		adminElem.style.display = "none";
+        });
+  
     }
 };
 // make it go!
